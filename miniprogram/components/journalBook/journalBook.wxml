@@ -1,0 +1,50 @@
+<view class='journalBook-container'>
+  <view class='flipper' style='{{ style }}'>
+    <view class='front' bindtap='onBookTap'>
+    <image class='coverImg'  src='{{ bookCoverUrl + background_id + ".jpg" }}'></image>
+      <view class='shade'>
+        <view class='book-info'>
+          <i-row>
+          <i-col span="1">
+            <view style='width:10rpx;height:88rpx;background-color: {{colorItem[color_id - 1]}};'></view>
+          </i-col>
+          <i-col span="23">
+            <text class='name'>{{ name }}</text>
+            <view class='summary'>共 {{ count }} 条记录</view>
+          </i-col>
+        </i-row>
+        </view>
+        <view class='settings-container' catchtap='onSettingsTap'>
+          <image class='settings' src='/images/icons/settings.png' />
+        </view>
+      </view>
+    </view>
+    <view class='back'>
+    <view style='height:670rpx;overflow-y:scroll;'>
+      <view class='input-title'>手帐本名称：</view>
+      <input class='input' cursor-spacing='150' maxlength='10' placeholder='{{ name }}' value='{{ newName }}' bindblur='onBlur' />
+      <view class='background-title'>主题颜色：</view>
+      <view class='flex-container'>
+        <view class='book-cover-container' wx:key='_id' wx:for='{{ mainColor }}' style='{{item}}'>
+          <image class='book-cover' id='{{ index + 1 }}' src='{{ mainColorUrl + (index + 1) + ".jpg" }}' bindtap='onMainColorTap' />
+        </view>
+      </view>
+      <view class='background-title'>封面图片：</view>
+      <view class='flex-container'>
+        <view class='book-cover-container' style='{{ item }}' wx:key='id' wx:for='{{ bookCovers }}'>
+          <image class='book-cover' id='{{ index + 1 }}' src='{{ bookCoverUrl + (index + 1) + ".jpg" }}' bindtap='onBookCoverTap' />
+        </view>
+      </view>
+      <view class='remove-button-container' bindtap='onRemoveButtonTap' hover-class='remove-button-container-hover'>
+        <image class='remove-button' src='/images/icons/remove.png' />
+      </view>
+      <view class='return-button-container' bindtap='onReturnButtonTap' hover-class='return-button-container-hover'>
+        <image class='return-button' src='/images/icons/return.png' />
+      </view>
+      <view class='submit-button-container' bindtap='onSubmitButtonTap' hover-class='submit-button-container-hover'>
+        <image class='submit-button' src='/images/icons/submit.png' />
+      </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "账单",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "journalBook": "/components/journalBook/journalBook",
+    "calendar": "/components/calendar/calendar"
+  }
+}

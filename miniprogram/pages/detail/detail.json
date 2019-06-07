@@ -1,0 +1,13 @@
+{
+  "navigationBarBackgroundColor": "#2d8cf0",
+  "usingComponents": {
+    "i-input": "/components/input/index",
+    "i-button": "/components/button/index",
+    "i-row": "/components/row/index",
+    "i-tabs": "/components/tabs/index",
+    "i-tab": "/components/tab/index",
+    "i-grid": "/components/grid/index",
+    "i-grid-item": "/components/grid-item/index",
+    "wux-navbar": "/components/navbar/index"
+  }
+}

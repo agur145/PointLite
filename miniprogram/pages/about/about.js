@@ -1,0 +1,9 @@
+Page({
+  data:{
+    setInfo:{
+      name:"Point",
+      version:"V0.3.3",
+      icon:"/images/icons/app_icon.png"
+    }
+  }
+})

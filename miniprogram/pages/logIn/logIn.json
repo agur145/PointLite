@@ -1,0 +1,7 @@
+{
+  "navigationBarBackgroundColor": "#FFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "i-spin": "/components/spin/index"
+  }
+}

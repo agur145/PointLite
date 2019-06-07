@@ -1,0 +1,18 @@
+<!--pages/setting/setting.wxml-->
+<button class="btn1" open-type='openSetting' animation="{{slide_up1}}">
+  <image class='btnImg' src='/images/icons/lock1.png'></image>
+  <view>授权设置</view>
+</button>
+<button class="btn1" open-type='contact' animation="{{slide_up2}}">
+  <image class='btnImg' src='/images/icons/headphone1.png'></image>
+  <view>联系我们</view>
+</button>
+<button class="btn1" open-type='feedback' animation="{{slide_up3}}">
+  <image class='btnImg' src='/images/icons/feedback1.png'></image>
+  <view>意见反馈</view>
+</button>
+
+<button class="btn1" bindtap='goToAboutPage' animation="{{slide_up4}}">
+  <image class='btnImg' src='/images/icons/about1.png'></image>
+  <view>关于</view>
+</button>

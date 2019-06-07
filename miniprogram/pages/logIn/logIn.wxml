@@ -1,0 +1,11 @@
+<image class='icon' src='/images/icons/app_icon.png'></image>
+<view class='name'>Point</view>
+<view style='text-align: center'> 
+  <button open-type='getUserInfo' bindgetuserinfo='jumpPage' class='butType' hidden='{{hide1}}' hover-class='plain-hover'>开始使用</button>
+</view>
+<view class='loadingview' hidden='{{hide2}}'>
+<i-spin custom>
+  <view class="loading"></view>
+</i-spin>
+</view>
+<view class='canvasview'><canvas canvas-id="canvas" class="canvas"></canvas></view>

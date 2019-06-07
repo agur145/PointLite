@@ -1,0 +1,187 @@
+@import"/lib/fontAwesome.wxss";
+@import"/lib/iconfont.wxss";
+
+.swiper-tab{  
+    width: 100%;  
+    border-bottom: 2rpx solid #777777;   
+    line-height: 80rpx;
+}  
+
+.swiper-tab-item{ 
+  font-size: 40rpx;
+  font-weight: lighter; 
+  display: inline-flex; 
+  width: 20%; 
+  color: #666666; 
+}
+
+.swiper-tab-item-hover{ 
+  font-size: 50rpx; 
+  font-weight: bold;
+  display: inline-flex; 
+  width: 20%; 
+  color: #1c2438; 
+}
+
+.on1{ 
+  width: 15%;
+  border-bottom: 12rpx solid #80848f;
+} 
+
+.on2{ 
+  margin-left: 20%;
+  width: 15%;
+  border-bottom: 12rpx solid #80848f;
+} 
+  
+.swiper-box{ 
+  display: block; 
+  height: 100%; 
+  width: 100%; 
+  overflow: hidden;
+} 
+
+.swiper-item{
+  height: 100%;
+  overflow: hidden;
+}
+
+.add_icon{
+  position: fixed;
+  bottom: -10rpx;
+  right: -20rpx;
+  width: 200rpx;
+  height: 200rpx;
+  z-index: 2;
+}
+
+.scroll{
+  height: 75vh;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+
+.panel{
+   display: block;
+}
+
+.time{
+  width: 100%;
+  height: 200rpx;
+}
+
+.icon{
+  /* margin-top: 30rpx; */
+  display: inline-flex;
+}
+
+.month{
+  font-size: 80rpx;
+  display: inline-flex;
+}
+
+.year{
+  font-size: 40rpx;
+  font-weight: lighter;
+  display: inline-flex;
+}
+
+.tag{
+  margin: 10rpx;
+}
+
+.row_class{
+  margin-top: 10rpx;
+}
+
+.out{
+  font-size: 50rpx;
+  font-weight: lighter;
+}
+
+.in{
+  font-size: 50rpx;
+  font-weight: lighter;
+}
+
+.i-group{
+  height: 100%;
+}
+
+.caption-wrap{
+  margin-bottom: 30px;
+}
+
+.caption-title{
+  font-weight: bold;
+  padding:20px 10px;
+}
+
+.collapse-item-title{
+  font-size: 20px;
+  color: #000;
+  font-weight: lighter;
+}
+
+.collapse-item-content{
+  font-size: 20px;
+  color: #444444;
+}
+
+.shade{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(0,0,0,0.8);
+  opacity: 0.5;
+  overflow: hidden;
+}   
+
+.cont {
+   width: 600rpx;
+   height: 940rpx;
+   z-index: 2;
+   overflow: hidden;
+   position: fixed;
+   top: 12%;
+   left: 70rpx;  
+   font-size: 32rpx; 
+   border-radius: 10rpx; 
+   box-shadow: 2rpx 4rpx 24rpx #686868;
+   background-color: white;
+}
+
+.item{
+  margin-top:10rpx;
+  margin-left: 30rpx;
+  width: 540rpx;
+  height: 290rpx;
+}
+
+.butType{
+  color: #fff;
+  top:10rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    -webkit-text-size-adjust:none;
+    -webkit-user-select: none;
+    font-size: 35rpx;
+    color: #333;
+    font-family: Helvetica,Arial,"Helvetica Neue","Droid Sans","Microsoft YaHei",sans-serif;
+    z-index: 2;
+}
+
+.canvas {
+    width: 100%;
+    height: 200px;
+}

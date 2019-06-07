@@ -1,0 +1,9 @@
+<view class='contain'>
+  <image  class="about-banner" src="{{setInfo.icon}}"></image>
+  <view>
+  <text style=' font-size:150rpx; font-family: "Poiret One"'>{{setInfo.name}}</text>
+  <view class='textline'><text >{{setInfo.version}}</text></view>
+
+  </view>
+  <navigator url="/pages/introduce/introduce">功能介绍</navigator>
+</view>

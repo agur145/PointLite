@@ -1,0 +1,225 @@
+<view class='topView'></view>
+<view class='iconView'>
+  <text class='{{icon}}' style='position:relative;font-size:120rpx;margin-left:15rpx;top:8rpx;'/>
+  <view style='text-align:center; margin-top:40rpx;text-size:100rpx;color:#FFF;'>{{iconName}}</view>
+</view>
+<view class='detail'>
+  <i-input type="number" disabled title="类型" mode="wrapped" placeholder="{{type}}" />
+  <i-input type="number" disabled title="金额" mode="wrapped" placeholder='{{money}}' />
+  <i-input type="number" disabled title="日期" mode="wrapped" placeholder='{{date}}' />
+  <i-input type="number" disabled title="备注" mode="wrapped" placeholder='{{note}}' />
+  <i-button bind:click="handleEdit" type="success" size="large">编辑</i-button>
+  <i-button bind:click="handleDelete" type="error" size="large">删除</i-button>  
+</view>
+<!-- 遮罩层 -->
+<view class="shade"  wx:if="{{shows}}" bindtap='close'></view>
+<!-- 添加页面版 -->
+<view class="cont" wx:if="{{ shows}}">
+<!-- 顶部标题栏 -->
+  <i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="tab1" title="支出"></i-tab>
+    <i-tab key="tab2" title="收入"></i-tab>
+  </i-tabs>
+  <!-- 支出填写框 -->
+  <view hidden="{{current == 'tab1' ? false : true}}">
+    <i-input type="text" right title="备注" mode="wrapped" bind:blur='addNote' maxlength="10" value='{{note}}'/>
+    <text style='color:#495060;margin-left:30rpx;font-size:30rpx;'>消费项目</text>
+      <scroll-view scroll-y class='item'>
+        <i-grid>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='1' style='{{itemCovers[0]}}'>
+              <text class='iconfont icon-canyin' style='font-size:50rpx;'/>
+              <text> 餐饮</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='2' style='{{itemCovers[1]}}'>
+              <text class='iconfont icon-gouwu' style='font-size:50rpx;'/>
+              <text> 购物</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='3' style='{{itemCovers[2]}}'>
+              <text class='iconfont icon-riyongpin' style='font-size:50rpx;'/>
+              <text> 日用</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='4' style='{{itemCovers[3]}}'>
+              <text class='iconfont icon-jiaotong' style='font-size:50rpx;'/>
+              <text> 交通</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='5' style='{{itemCovers[4]}}'>
+              <text class='iconfont icon-shucai' style='font-size:50rpx;'/>
+              <text> 蔬菜</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='6' style='{{itemCovers[5]}}'>
+              <text class='iconfont icon-shuiguo' style='font-size:50rpx;'/>
+              <text> 水果</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='7' style='{{itemCovers[6]}}'>
+              <text class='iconfont icon-lingshi' style='font-size:50rpx;'/>
+              <text> 零食</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='8' style='{{itemCovers[7]}}'>
+              <text class='iconfont icon-yundong' style='font-size:50rpx;'/>
+              <text> 运动</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='9' style='{{itemCovers[8]}}'>
+              <text class='iconfont icon-changge' style='font-size:50rpx;'/>
+              <text> 娱乐</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='10' style='{{itemCovers[9]}}'>
+              <text class='iconfont icon-wifidianhuaqia' style='font-size:50rpx;'/>
+              <text> 通讯</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='11' style='{{itemCovers[10]}}'>
+              <text class='iconfont icon-fushi' style='font-size:50rpx;'/>
+              <text> 服饰</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='12' style='{{itemCovers[11]}}'>
+              <text class='iconfont icon-meirong-heicopy' style='font-size:50rpx;'/>
+              <text> 美容</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='13' style='{{itemCovers[12]}}'>
+              <text class='iconfont icon-fangzi' style='font-size:50rpx;'/>
+              <text> 住房</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='14' style='{{itemCovers[13]}}'>
+              <text class='iconfont icon-xuanzuo' style='font-size:50rpx;'/>
+              <text> 居家</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='15' style='{{itemCovers[14]}}'>
+              <text class='iconfont icon-yingerpiaozhichi' style='font-size:50rpx;'/>
+              <text> 孩子</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='16' style='{{itemCovers[15]}}'>
+              <text class='iconfont icon-chengnianrennan' style='font-size:50rpx;'/>
+              <text> 长辈</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='17' style='{{itemCovers[16]}}'>
+              <text class='iconfont icon-jieban' style='font-size:50rpx;'/>
+              <text> 社交</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='18' style='{{itemCovers[17]}}'>
+              <text class='iconfont icon-jipiao' style='font-size:50rpx;'/>
+              <text> 旅行</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='19' style='{{itemCovers[18]}}'>
+              <text class='iconfont icon-yanjiu' style='font-size:50rpx;'/>
+              <text> 烟酒</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='20' style='{{itemCovers[19]}}'>
+              <text class='iconfont icon-weibiaoti2fuzhi03' style='font-size:50rpx;'/>
+              <text> 数码</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='21' style='{{itemCovers[20]}}'>
+              <text class='iconfont icon-qiche' style='font-size:50rpx;'/>
+              <text> 汽车</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='22' style='{{itemCovers[21]}}'>
+              <text class='iconfont icon-yiliao' style='font-size:50rpx;'/>
+              <text> 医疗</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='23' style='{{itemCovers[22]}}'>
+              <text class='iconfont icon-youji' style='font-size:50rpx;'/>
+              <text> 书籍</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='24' style='{{itemCovers[23]}}'>
+              <text class='iconfont icon-xuexi' style='font-size:50rpx;'/>
+              <text> 学习</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='25' style='{{itemCovers[24]}}'>
+              <text class='iconfont icon-xiedaichongwu' style='font-size:50rpx;'/>
+              <text> 宠物</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='26' style='{{itemCovers[25]}}'>
+              <text class='iconfont icon-hongbao' style='font-size:50rpx;'/>
+              <text> 礼金</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='27' style='{{itemCovers[26]}}'>
+              <text class='iconfont icon-liwuhuodong' style='font-size:50rpx;'/>
+              <text> 礼物</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='28' style='{{itemCovers[27]}}'>
+              <text class='iconfont icon-shangwu' style='font-size:50rpx;'/>
+              <text> 办公</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='29' style='{{itemCovers[28]}}'>
+              <text class='iconfont icon-weixiu' style='font-size:50rpx;'/>
+              <text> 维修</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='30' style='{{itemCovers[29]}}'>
+              <text class='iconfont icon-juanzeng' style='font-size:50rpx;'/>
+              <text> 捐赠</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='31' style='{{itemCovers[30]}}'>
+              <text class='iconfont icon-caipiao' style='font-size:50rpx;'/>
+              <text> 彩票</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='32' style='{{itemCovers[31]}}'>
+              <text class='iconfont icon-kuaidi' style='font-size:50rpx;'/>
+              <text> 快递</text>
+            </i-grid-item>
+          </i-row>
+        </i-grid>
+      </scroll-view>
+    <i-input type="digit" error='{{error}}' right title="金额" mode="wrapped" placeholder="请输入消费金额" bind:blur='addOutMoney' maxlength='50' bind:change='clearNoNum' value='{{outmoney}}' />
+    <picker mode="date" value="{{addDate}}" start="1998-01-01" end="{{fullDate}}" bindchange="bindAddDateChange">
+      <i-input type="number"  disabled right title="日期" mode="wrapped" placeholder="{{addDate}}" class='positon'/>
+    </picker>
+    <button bindtap='entrueAddOutItem' class='butType' hover-class='plain-hover'>确认</button>  
+  </view>
+  <!-- 收入填写框 -->
+  <view hidden="{{current == 'tab1' ? true : false}}">
+    <i-input type="text" right title="备注" mode="wrapped" bind:blur='addNote' maxlength="10" value='{{note}}'/>
+    <text style='color:#495060;margin-left:30rpx;font-size:30rpx;'>收入项目</text>
+      <scroll-view scroll-y class='item'>
+        <i-grid>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='1' style='{{itemCovers[0]}}'>
+              <text class='iconfont icon-gongzi' style='font-size:50rpx;'/>
+              <text > 工资</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='2' style='{{itemCovers[1]}}'>
+              <text class='iconfont icon-jianzhi' style='font-size:50rpx;'/>
+              <text> 兼职</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='3' style='{{itemCovers[2]}}'>
+              <text class='iconfont icon-licai' style='font-size:50rpx;'/>
+              <text> 理财</text>
+            </i-grid-item>
+          </i-row>
+          <i-row>
+            <i-grid-item bindtap='changeItem' data-id='4' style='{{itemCovers[3]}}'>
+              <text class='iconfont icon-hongbao' style='font-size:50rpx;'/>
+              <text> 礼金</text>
+            </i-grid-item>
+            <i-grid-item bindtap='changeItem' data-id='5' style='{{itemCovers[4]}}'>
+              <text class='iconfont icon-qita' style='font-size:50rpx;'/>
+              <text> 其他</text>
+            </i-grid-item>
+          </i-row>
+        </i-grid>
+      </scroll-view>
+    <i-input type="digit" error='{{error}}' right title="金额" mode="wrapped" placeholder="请输入收入金额" bind:blur='addInMoney' maxlength='50' bind:change='clearNoNum' value='{{inmoney}}'/>
+    <picker mode="date" value="{{addDate}}" start="1998-01-01" end="{{fullDate}}" bindchange="bindAddDateChange">
+      <i-input type="number"  disabled right title="日期" mode="wrapped" placeholder="{{addDate}}" class='positon'/>
+    </picker>
+    <button bindtap='entrueAddInItem' disabled class='butType' hover-class='plain-hover'>确认</button>  
+  </view>
+</view>  
