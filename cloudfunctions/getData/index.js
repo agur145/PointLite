@@ -1,24 +1,17 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-
+//初始化
 cloud.init()
-
+//获取数据库对象
+const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  // 先取出集合记录总数
-  const countResult = await db.collection('todos').count()
-  const total = countResult.total
-  // 计算需分几次取
-  const batchTimes = Math.ceil(total / 100)
-  // 承载所有读操作的 promise 的数组
-  const tasks = []
-  for (let i = 0; i < batchTimes; i++) {
-    const promise = db.collection('todos').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
-    tasks.push(promise)
-  }
-  // 等待所有
-  return (await Promise.all(tasks)).reduce((acc, cur) => ({
-    data: acc.data.concat(cur.data),
-    errMsg: acc.errMsg,
-  }))
+  return await db.collection('notes')
+    .where({
+      notebook_id: event.notebook_id,
+      year: event.year,
+      month: event.month
+    })
+    .orderBy('day', 'desc')
+    .get()
 }

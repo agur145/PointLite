@@ -42,8 +42,6 @@ Page({
         in:0,
         //json格式账单数组
         jsonItem: [],
-        //日期用数组
-        dayArray: [],
         //每天支出总计数组
         dayCountOutArray: [],
         //每天收入总计数组
@@ -100,6 +98,7 @@ Page({
     },
 
     onLoad: function (options) {
+      //改变分段器颜色
       if (options.color =='#5cadff'){
         var the = 'positive'
       } else if (options.color == '#f76b6c'){
@@ -129,42 +128,30 @@ Page({
           color: options.color,
           theme: the
         });
-        this.modifyDay(strs[0], strs[1]);
-        this.data.dayCountOutArray = new Array(this.data.dayArray.length);
-        this.data.dayCountInArray = new Array(this.data.dayArray.length);
-        for (var s = 0; s < this.data.dayArray.length; s++) {
-          this.data.dayCountOutArray[s] = 0
-          this.data.dayCountInArray[s] = 0
-        }
-        this.setData({
-          dayCountOutArray: this.data.dayCountOutArray,
-          dayCountInArray: this.data.dayCountInArray
-        })
-        this.data.itemCovers = new Array(32);
-        //向数据库查询对应的记录
-        db.collection('notes').where({
-          notebook_id: this.data.notebookId,
-          month: this.data.month,
-          year: this.data.year
-        })
-          .get({
-            success(res) {
-              that.setData({
-                jsonItem: res.data[0].item,
-                noteId: res.data[0]._id,
-              })
-              //计算收入支出
-              that.count();
-              that.dayCount();
-            },
-            fail(err) {
-              wx.showModal({
-                title: '出现错误',
-                content: '错误信息为:'+err.errMsg,
-                showCancel: false,
-              })
-            }
-          });       
+        //调用云函数查询帐单记录
+        wx.cloud.callFunction({
+          name:'getData',
+          data:{
+            notebook_id: this.data.notebookId,
+            year: this.data.year,
+            month: this.data.month,
+          },
+          success: res =>{
+            that.setData({
+              jsonItem: res.result.data,
+            })
+            //计算收入支出
+            that.count();
+            that.dayCount();
+          },
+          fail: err => {
+            wx.showModal({
+              title: '查询失败',
+              content: '错误信息为：' + err.errMsg,
+              showCancel: false,
+            })
+          }
+        })     
       }else{
         var str1 = options.date.substr(0,4);
         var str2 = options.date.substr(5,2);
@@ -178,41 +165,34 @@ Page({
           addDate: str,
           notebookId: options.note_book_id,
         });
-        this.modifyDay(str1, str2);
-        this.data.dayCountOutArray = new Array(this.data.dayArray.length);
-        this.data.dayCountInArray = new Array(this.data.dayArray.length);
-        for (var s = 0; s < this.data.dayArray.length; s++) {
-          this.data.dayCountOutArray[s] = 0
-          this.data.dayCountInArray[s] = 0
-        }
-        this.setData({
-          dayCountOutArray: this.data.dayCountOutArray,
-          dayCountInArray: this.data.dayCountInArray
+        //调用云函数查询帐单记录
+        wx.cloud.callFunction({
+          name: 'getData',
+          data: {
+            notebook_id: this.data.notebookId,
+            year: this.data.year,
+            month: this.data.month,
+          },
+          success: res => {
+            that.setData({
+              jsonItem: res.result.data,
+            })
+            //计算收入支出
+            that.count();
+            that.dayCount();
+          },
+          fail: err => {
+            wx.showModal({
+              title: '查询失败',
+              content: '错误信息为：' + err.errMsg,
+              showCancel: false,
+            })
+          }
         })
-        this.data.itemCovers = new Array(32);
-        db.collection('notes').where({
-          notebook_id: this.data.notebookId,
-          month: this.data.month,
-          year: this.data.year
-        })
-          .get({
-            success(res) {
-              that.setData({
-                jsonItem: res.data[0].item,
-                noteId: res.data[0]._id,
-              })
-              that.count();
-              that.dayCount();
-            },
-            fail(err) {
-              wx.showModal({
-                title: '出现错误',
-                content: '错误信息为:' + err.errMsg,
-                showCancel: false,
-              })
-            },
-          })
       }
+      //变更noteId
+      this.changeNoteId();
+      //绘制右下角添加按钮
       var context = wx.createCanvasContext('addIcon')
       context.arc(38, 38, 38, 0, 2 * Math.PI)
       context.setFillStyle(this.data.color)
@@ -285,38 +265,33 @@ Page({
       newDate: e.detail.value,
       year: strs[0],
       month: strs[1],
-      noteId:'',
       jsonItem: [],
     });
-    this.modifyDay(strs[0], strs[1]);
     var that = this;
-    db.collection('notes').where({
-      notebook_id: this.data.notebookId,
-      month: this.data.month,
-      year: this.data.year
+    //调用云函数查询帐单记录
+    wx.cloud.callFunction({
+      name: 'getData',
+      data: {
+        notebook_id: this.data.notebookId,
+        year: this.data.year,
+        month: this.data.month,
+      },
+      success: res => {
+        that.setData({
+          jsonItem: res.result.data,
+        })
+        //计算收入支出
+        that.count();
+        that.dayCount();
+      },
+      fail: err => {
+        wx.showModal({
+          title: '查询失败',
+          content: '错误信息为：' + err.errMsg,
+          showCancel: false,
+        })
+      }
     })
-      .get({
-        success(res) {
-          flag = false;
-          that.setData({
-            jsonItem: res.data[0].item,
-            noteId: res.data[0]._id,
-          })
-          that.count();
-          that.dayCount();
-        },
-        fail(err) {
-          wx.showModal({
-            title: '出现错误',
-            content: '错误信息为:' + err.errMsg,
-            showCancel: false,
-          })
-        }
-      });
-    if(flag){
-      that.count();
-      that.dayCount();
-    }
   },
 
   //Tabbar切换
@@ -336,33 +311,13 @@ Page({
     })
   },
 
-  //在添加账单页更改日期后查询数据库是否含有该月份的记录
+  //在添加账单页更改日期时修改相应变量
   bindAddDateChange: function (e) {
-    var that = this;
-    var strs = e.detail.value.split('-');
     this.setData({
       addDate: e.detail.value,
-      noteId: '',
     });
-    db.collection('notes').where({
-      notebook_id: this.data.notebookId,
-      month: strs[1],
-      year: strs[0]
-    })
-      .get({
-        success(res) {
-          that.setData({
-            noteId: res.data[0]._id,
-          });
-        },
-        fail(err) {
-          wx.showModal({
-            title: '出现错误',
-            content: '错误信息为:' + err.errMsg,
-            showCancel: false,
-          })
-        }
-      });
+    //变更noteId
+    this.changeNoteId();
   },
 
   //将账单信息添加至数据库
@@ -398,7 +353,7 @@ Page({
       var that = this;
       var arr = []
       //将账单信息储存在json中
-      var json = { "date": strs[0] + "年" + strs[1] + "月" + strs[2] + "日 " + week, "note": this.data.note, "iconName": this.data.itemOutName[this.data.iconId - 1], "itemOutIcon": this.data.itemOutIcon[this.data.iconId - 1], "money": this.data.money, "day": strs[2] }
+      var json = { "date": strs[0] + "年" + strs[1] + "月" + strs[2] + "日 " + week, "note": this.data.note, "iconName": this.data.itemOutName[this.data.iconId - 1], "itemOutIcon": this.data.itemOutIcon[this.data.iconId - 1], "money": this.data.money}
       //将json添加到数组中
       arr.push(json)
       //判断数据库中是否已经有该月份的纪录，如果有则更新，没有则添加
@@ -407,6 +362,7 @@ Page({
           data: {
             year: strs[0],
             month: strs[1],
+            day: strs[2],
             notebook_id: this.data.notebookId,
             item: arr,
           },
@@ -417,7 +373,7 @@ Page({
           //失败显示提示信息
           fail(err) {
             wx.showModal({
-              title: '创建失败，请联系开发者',
+              title: '创建失败',
               content: 'ErrorCode: ' + err.errCode,
               showCancel: false,
             })
@@ -500,7 +456,7 @@ Page({
       var that = this;
       var arr = []
       //将账单信息储存在json中
-      var json = { "date": strs[0] + "年" + strs[1] + "月" + strs[2] + "日 " + week, "note": this.data.note, "iconName": this.data.itemInName[this.data.iconId - 1], "itemOutIcon": this.data.itemInIcon[this.data.iconId - 1], "money": this.data.money, "day": strs[2] }
+      var json = { "date": strs[0] + "年" + strs[1] + "月" + strs[2] + "日 " + week, "note": this.data.note, "iconName": this.data.itemInName[this.data.iconId - 1], "itemOutIcon": this.data.itemInIcon[this.data.iconId - 1], "money": this.data.money}
       //将json添加到数组中
       arr.push(json)
       //判断数据库中是否已经有该月份的纪录，如果有则更新，没有则添加
@@ -509,25 +465,13 @@ Page({
           data: {
             year: strs[0],
             month: strs[1],
+            day: strs[2],
             notebook_id: this.data.notebookId,
             item: arr,
           },
           //成功显示提示信息
           success(res) {
-            db.collection('users').doc(this.data.notebookId).update({
-              data: {
-                number: db.command.inc(1)
-              },
-              success(res) {
-                wx.showToast({
-                  title: '添加成功',
-                  icon: 'success',
-                  duration: 1500,
-                  mask: true
-                });
-                that.jumpPage(strs);
-            }
-            })
+            
           },
           //失败显示提示信息
           fail(err) {
@@ -545,6 +489,14 @@ Page({
           },
           success(res) {
             
+          },
+          //失败显示提示信息
+          fail(err) {
+            wx.showModal({
+              title: '创建失败，请联系开发者',
+              content: 'ErrorCode: ' + err.errCode,
+              showCancel: false,
+            })
           }
         })
       }
@@ -590,45 +542,6 @@ Page({
     })
   },
 
-  //确定当前月份共有多少天并储存在数组中
-  modifyDay: function (e1,e2) {
-    this.data.dayArray = [];
-    var year = parseInt(e1);
-    var month = parseInt(e2);
-    var str = this.data.fullDate;
-    var strs = str.split('-');
-    if(e1==strs[0] && e2==strs[1]){
-      for(var i = parseInt(strs[2]) ; i > 0 ; i--){
-        this.data.dayArray.push(i)
-      }
-    }else{
-      if (month == 2) {
-        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-          for (var i = 29; i > 0; i--) {
-            this.data.dayArray.push(i)
-          }
-        } else {
-          for (var i = 28; i > 0; i--) {
-            this.data.dayArray.push(i)
-          }
-        }
-      } else {
-        if (month == 4 || month == 6 || month == 9 || month == 11) {
-          for (var i = 30; i > 0; i--) {
-            this.data.dayArray.push(i)
-          }
-        } else {
-          for (var i = 31; i > 0; i--) {
-            this.data.dayArray.push(i)
-          }
-        }
-      }
-    } 
-    this.setData({
-      dayArray: this.data.dayArray
-    })
-  },
-
   //进入单个消费项目详情页
   bindItem: function (e) {
     var json = JSON.stringify(this.data.jsonItem);
@@ -663,22 +576,21 @@ Page({
 
   //计算每月支出与收入
   count: function () {
-    this.setData({
-      out:0,
-      in:0,
-    })
-    var item = this.data.jsonItem;
-    for (var i = 0; i < item.length;i++){
-      if(item[i].money<0){
-        this.setData({
-          out: this.data.out - item[i].money
-        })
-      }else{
-        this.setData({
-          in: this.data.in + item[i].money
-        })
+    var outCount = 0;
+    var inCount = 0;
+    for (var i = 0; i < this.data.jsonItem.length;i++){
+      for (var j = 0; j < this.data.jsonItem[i].item.length; j++){
+        if (this.data.jsonItem[i].item[j].money < 0) {
+          outCount = outCount - this.data.jsonItem[i].item[j].money
+        } else {
+          inCount = inCount + this.data.jsonItem[i].item[j].money
+        }
       }
-    }  
+    }
+    this.setData({
+      out: outCount,
+      in: inCount
+    })  
   },
 
   jumpPage: function (e) {
@@ -687,71 +599,63 @@ Page({
       newDate: strs[0] + '-' + strs[1],
       year: strs[0],
       month: strs[1],
+      day: strs[2],
       noteId: '',
       jsonItem: [],
     });
-    this.modifyDay(strs[0], strs[1]);
     var that = this;
-    db.collection('notes').where({
-      notebook_id: this.data.notebookId,
-      month: this.data.month,
-      year: this.data.year
+    this.changeNoteId();
+    //调用云函数查询帐单记录
+    wx.cloud.callFunction({
+      name: 'getData',
+      data: {
+        notebook_id: this.data.notebookId,
+        year: this.data.year,
+        month: this.data.month,
+      },
+      success: res => {
+        that.setData({
+          jsonItem: res.result.data,
+        })
+        //计算收入支出
+        that.count();
+        that.dayCount();
+      },
+      fail: err => {
+        wx.showModal({
+          title: '查询失败',
+          content: '错误信息为：' + err.errMsg,
+          showCancel: false,
+        })
+      }
     })
-      .get({
-        success(res) {
-          that.setData({
-            jsonItem: res.data[0].item,
-            noteId: res.data[0]._id,
-          })
-          that.count();
-          console.log(res.data[0].item);
-          that.dayCount();
-        },
-        fail(err) {
-          wx.showModal({
-            title: '出现错误',
-            content: '错误信息为:' + err.errMsg,
-            showCancel: false,
-          })
-        }
-      });
   },
 
   //计算每日支出和收入总计
   dayCount: function () {
-    var dayIn = 0;
-    var dayOut = 0;
-    var dayArray = this.data.dayArray;
-    var item = this.data.jsonItem;
-    this.data.dayCountOutArray = new Array(dayArray.length);
-    this.data.dayCountInArray = new Array(dayArray.length);
-    for (var s = 0; s < dayArray.length; s++) {
-      this.data.dayCountOutArray[s] = 0
-      this.data.dayCountInArray[s] = 0
+    this.data.dayCountOutArray = []
+    this.data.dayCountInArray = []
+    for (var s = 0; s < this.data.jsonItem.length; s++) {
+      this.data.dayCountOutArray.push(0)
+      this.data.dayCountInArray.push(0)
+    }
+    for (var i = 0; i < this.data.jsonItem.length; i++){
+      var dayIn = 0
+      var dayOut = 0
+      for(var j = 0; j < this.data.jsonItem[i].item.length; j++){
+        if (this.data.jsonItem[i].item[j].money < 0){
+          dayOut = dayOut - this.data.jsonItem[i].item[j].money
+        }else{
+          dayIn = dayIn + this.data.jsonItem[i].item[j].money
+        }
+      }
+      this.data.dayCountOutArray[i] = dayOut
+      this.data.dayCountInArray[i] = dayIn
     }
     this.setData({
       dayCountOutArray: this.data.dayCountOutArray,
-      dayCountInArray: this.data.dayCountInArray
+      dayCountInArray: this.data.dayCountInArray,
     })
-    for(var i=0;i<dayArray.length;i++){
-      for(var j=0;j<item.length;j++){
-        if(parseInt(item[j].day)==dayArray[i]){
-          if(item[j].money<0){
-            this.data.dayCountOutArray[i] = this.data.dayCountOutArray[i] - item[j].money
-            this.setData({
-              dayCountOutArray: this.data.dayCountOutArray,
-              dayCountInArray: this.data.dayCountInArray
-            })
-          }else{
-            this.data.dayCountInArray[i] = this.data.dayCountInArray[i] + item[j].money
-            this.setData({
-              dayCountInArray: this.data.dayCountInArray,
-              dayCountOutArray: this.data.dayCountOutArray,
-            })
-          }
-        }
-      }
-    }
   },
 
 
@@ -762,6 +666,31 @@ Page({
         return category + '月 ' + item.name + ':' + item.data
       }
     });
+  },
+
+  //根据日期查询是否有账单记录
+  changeNoteId: function (){
+    var that = this;
+    var strs = this.data.addDate.split('-');
+    db.collection('notes').where({
+      notebook_id: this.data.notebookId,
+      year: strs[0],
+      month: strs[1],
+      day: strs[2],
+    })
+      .get({
+        success: function (res) {
+          if(res.data.length==0){
+            that.setData({
+              noteId: ''
+            })
+          }else{
+            that.setData({
+              noteId: res.data[0]._id
+            })
+          }
+          }
+      })
   },
 
   touchMonthHandler: function (e) {

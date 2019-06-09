@@ -21,10 +21,10 @@
     <scroll-view scroll-y='true' class='scroll'>
       <view class="caption-wrap">
         <i-collapse name='name1'>
-          <i-collapse-item name="name1" title='{{month + "月" + i +"日 支出:" + dayCountOutArray[index] + " 收入:" + dayCountInArray[index]}}' i-class-title="collapse-item-title" i-class-content="collapse-item-content" wx:for='{{dayArray}}' wx:key='{{i}}' wx:for-item="i">
+          <i-collapse-item name="name1" title='{{itemArray.month + "月" + itemArray.day +"日 支出:" + dayCountOutArray[index] + " 收入:" + dayCountInArray[index]}}' i-class-title="collapse-item-title" i-class-content="collapse-item-content" wx:for='{{jsonItem}}' wx:key='{{itemArray.day}}' wx:for-item="itemArray">
             <view slot="content">
                 <i-cell-group class='i-group'>
-                  <i-cell title="{{item.note == '' ? item.iconName : item.note}}" value='{{item.money}}' bindtap='bindItem' wx:key='{{ item._id }}' wx:for='{{ jsonItem }}' wx:if='{{item.day==i}}' data-index='{{index}}'><text class='{{item.itemOutIcon}}'></text></i-cell>
+                  <i-cell title="{{itemArrays.note == '' ? itemArrays.iconName : itemArrays.note}}" value='{{itemArrays.money}}' bindtap='bindItem' wx:key='{{ itemArrays._id }}' wx:for='{{ jsonItem[index].item }}' wx:for-item="itemArrays" data-index='{{index}}'><text class='{{itemArrays.itemOutIcon}}'></text></i-cell>
                 </i-cell-group>
             </view>
           </i-collapse-item>
@@ -295,6 +295,6 @@
     <picker mode="date" value="{{addDate}}" start="1998-01-01" end="{{fullDate}}" bindchange="bindAddDateChange">
       <i-input type="number"  disabled right title="日期" mode="wrapped" placeholder="{{addDate}}" class='positon'/>
     </picker>
-    <button bindtap='entrueAddInItem' class='butType' hover-class='plain-hover'>确认</button>  
+    <button bindtap='entrueAddInItem' class='butType' style='background-color:{{color}};' hover-class='plain-hover'>确认</button>  
   </view>
 </view>  
