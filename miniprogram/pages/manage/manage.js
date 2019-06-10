@@ -593,6 +593,7 @@ Page({
     })  
   },
 
+  //添加帐单后跳转页面
   jumpPage: function (e) {
     var strs = e;
     this.setData({
@@ -658,7 +659,7 @@ Page({
     })
   },
 
-
+  //点击图表相关操作
   touchYearHandler: function (e) {
     console.log(lineChart1.getCurrentDataIndex(e));
     lineChart1.showToolTip(e, {
@@ -693,10 +694,12 @@ Page({
       })
   },
 
+  //点击图标相关操作
   touchMonthHandler: function (e) {
     lineChart2.scrollStart(e);
   },
 
+  //移动图表相关操作
   moveHandler: function (e) {
     lineChart2.scroll(e);
   },
@@ -723,7 +726,6 @@ Page({
       type: 'line',
       categories: ['1','2','3','4','5','6','7','8','9','10','11','12'],
       animation: true,
-      // background: '#f5f5f5',
       series: [{
         name: '收入',
         data: inarray,
@@ -1058,7 +1060,7 @@ Page({
   },
 
   //点击更换年份后进行计算和绘图
-  bindRangeYearChange: function(e) {
+  bindRangeYearChange: function(e) { 
     if (!isNaN(e)){
       var year = e;
     }else{
@@ -1082,49 +1084,58 @@ Page({
     this.setData({
       yearRange: year,
     })
-    db.collection('notes').where({
-      notebook_id: this.data.notebookId,
-      year: year,
-    })
-      .get({
-        success(res) {
-          for (var i = 0; i < res.data.length; i++) {
-            for (var j = 0; j < res.data[i].item.length; j++) {
-              if (res.data[i].item[j].money < 0) {
-                outarray[parseInt(res.data[i].month - 1)] = outarray[parseInt(res.data[i].month - 1)] - res.data[i].item[j].money;
-              } else {
-                inarray[parseInt(res.data[i].month - 1)] = inarray[parseInt(res.data[i].month - 1)] + res.data[i].item[j].money;
-              }
+    //调用云函数查询帐单记录
+    wx.cloud.callFunction({
+      name: 'getYearData',
+      data: {
+        notebook_id: this.data.notebookId,
+        year: year,
+      },
+      success: res => {
+        for (var i = 0; i < res.result.data.length; i++) {
+          for (var j = 0; j < res.result.data[i].item.length; j++) {
+            if (res.result.data[i].item[j].money < 0) {
+              outarray[parseInt(res.result.data[i].month)] = outarray[parseInt(res.result.data[i].month)] - res.result.data[i].item[j].money
+            } else {
+              inarray[parseInt(res.result.data[i].month)] = inarray[parseInt(res.result.data[i].month)] + res.result.data[i].item[j].money
             }
           }
-          for (var a = 0; a < that.data.itemOutName.length; a++) {
-            for (var i = 0; i < res.data.length; i++) {
-              for (var j = 0; j < res.data[i].item.length; j++) {
-                if (res.data[i].item[j].money < 0) {
-                  if (res.data[i].item[j].iconName == that.data.itemOutName[a]) {
-                    outrank[a] = outrank[a] - res.data[i].item[j].money;
-                  }
+        }
+        that.drawYearCanvas(outarray, inarray);
+        for (var a = 0; a < that.data.itemOutName.length; a++) {
+          for (var i = 0; i < res.result.data.length; i++) {
+            for (var j = 0; j < res.result.data[i].item.length; j++) {
+              if (res.result.data[i].item[j].money < 0) {
+                if (res.result.data[i].item[j].iconName == that.data.itemOutName[a]) {
+                  outrank[a] = outrank[a] - res.result.data[i].item[j].money;
+                }
+              } else {
+                if (res.result.data[i].item[j].iconName == '工资') {
+                  inrank[0] = inrank[0] + res.result.data[i].item[j].money;
+                } else if (res.data[i].item[j].iconName == '兼职') {
+                  inrank[1] = inrank[1] + res.result.data[i].item[j].money;
+                } else if (res.data[i].item[j].iconName == '理财') {
+                  inrank[2] = inrank[2] + res.result.data[i].item[j].money;
+                } else if (res.data[i].item[j].iconName == '礼金') {
+                  inrank[3] = inrank[3] + res.result.data[i].item[j].money;
                 } else {
-                  if (res.data[i].item[j].iconName == '工资') {
-                    inrank[0] = inrank[0] + res.data[i].item[j].money;
-                  } else if (res.data[i].item[j].iconName == '兼职') {
-                    inrank[1] = inrank[1] + res.data[i].item[j].money;
-                  } else if (res.data[i].item[j].iconName == '理财') {
-                    inrank[2] = inrank[2] + res.data[i].item[j].money;
-                  } else if (res.data[i].item[j].iconName == '礼金') {
-                    inrank[3] = inrank[3] + res.data[i].item[j].money;
-                  } else {
-                    inrank[4] = inrank[4] + res.data[i].item[j].money;
-                  }
+                  inrank[4] = inrank[4] + res.result.data[i].item[j].money;
                 }
               }
             }
           }
-          that.drawYearCanvas(outarray, inarray);
-          that.drawYearOutPieCanvas(outrank);
-          that.drawYearInPieCanvas(inrank);
-        },
-      });  
+        }
+        that.drawYearOutPieCanvas(outrank);
+        that.drawYearInPieCanvas(inrank);
+      },
+      fail: err => {
+        wx.showModal({
+          title: '查询失败',
+          content: '错误信息为：' + err.errMsg,
+          showCancel: false,
+        })
+      }
+    })
   },
 
   //点击更换月份后进行计算和绘图
@@ -1181,51 +1192,58 @@ Page({
     this.setData({
       monthRange: year + '-' + month,
     })
-    db.collection('notes').where({
-      notebook_id: this.data.notebookId,
-      year: year,
-      month: month,
-    })
-      .get({
-        success(res) {
-          if(res.data.length==0){
-            that.drawMonthCanvas(outArray, inArray, dayArray);
-            that.drawMonthOutPieCanvas(outrank);
-            that.drawMonthInPieCanvas(inrank);
-          }else{
-            for (var i = 0; i < res.data[0].item.length; i++) {
-              if (res.data[0].item[i].money < 0) {
-                outArray[parseInt(res.data[0].item[i].day)-1] = outArray[parseInt(res.data[0].item[i].day)-1] - res.data[0].item[i].money;
+    //调用云函数查询帐单记录并计算
+    wx.cloud.callFunction({
+      name: 'getData',
+      data: {
+        notebook_id: this.data.notebookId,
+        year: year,
+        month: month,
+      },
+      success: res => {
+        for(var i = 0; i < res.result.data.length; i++){
+          for(var j = 0; j < res.result.data[i].item.length; j++){
+            if (res.result.data[i].item[j].money < 0){
+              outArray[parseInt(res.result.data[i].day) - 1] = outArray[parseInt(res.result.data[i].day) - 1] - res.result.data[i].item[j].money;
+            }else{
+              inArray[parseInt(res.result.data[i].day) - 1] = inArray[parseInt(res.result.data[i].day) - 1] + res.result.data[i].item[j].money;
+            }
+          }
+        }
+        that.drawMonthCanvas(outArray, inArray, dayArray);
+        for (var a = 0; a < that.data.itemOutName.length; a++) {
+          for (var i = 0; i < res.result.data.length; i++) {
+            for (var j = 0; j < res.result.data[i].item.length; j++){
+              if (res.result.data[i].item[j].money < 0) {
+                if (res.result.data[i].item[j].iconName == that.data.itemOutName[a]) {
+                  outrank[a] = outrank[a] - res.result.data[i].item[j].money;
+                }
               } else {
-                inArray[parseInt(res.data[0].item[i].day)-1] = inArray[parseInt(res.data[0].item[i].day)-1] + res.data[0].item[i].money;
+                if (res.result.data[i].item[j].iconName == '工资') {
+                  inrank[0] = inrank[0] + res.result.data[i].item[j].money;
+                } else if (res.result.data[i].item[j].iconName == '兼职') {
+                  inrank[1] = inrank[1] + res.result.data[i].item[j].money;
+                } else if (res.result.data[i].item[j].iconName == '理财') {
+                  inrank[2] = inrank[2] + res.result.data[i].item[j].money;
+                } else if (res.result.data[i].item[j].iconName == '礼金') {
+                  inrank[3] = inrank[3] + res.result.data[i].item[j].money;
+                } else {
+                  inrank[4] = inrank[4] + res.result.data[i].item[j].money;
+                }
               }
             }
-            for (var a = 0; a < that.data.itemOutName.length; a++) {
-                for (var j = 0; j < res.data[0].item.length; j++) {
-                  if (res.data[0].item[j].money < 0) {
-                    if (res.data[0].item[j].iconName == that.data.itemOutName[a]) {
-                      outrank[a] = outrank[a] - res.data[0].item[j].money;
-                    }
-                  } else {
-                    if (res.data[0].item[j].iconName == '工资') {
-                      inrank[0] = inrank[0] + res.data[0].item[j].money;
-                    } else if (res.data[0].item[j].iconName == '兼职') {
-                      inrank[1] = inrank[1] + res.data[0].item[j].money;
-                    } else if (res.data[0].item[j].iconName == '理财') {
-                      inrank[2] = inrank[2] + res.data[0].item[j].money;
-                    } else if (res.data[0].item[j].iconName == '礼金') {
-                      inrank[3] = inrank[3] + res.data[0].item[j].money;
-                    } else {
-                      inrank[4] = inrank[4] + res.data[0].item[j].money;
-                    }
-                  }
-                }
-            }
-            that.drawMonthCanvas(outArray, inArray, dayArray);
-            that.drawMonthOutPieCanvas(outrank);
-            that.drawMonthInPieCanvas(inrank);
-          }          
+          }
         }
-      });
+        that.drawMonthOutPieCanvas(outrank);
+        that.drawMonthInPieCanvas(inrank);
+      },
+      fail: err => {
+        wx.showModal({
+          title: '查询失败',
+          content: '错误信息为：' + err.errMsg,
+          showCancel: false,
+        })
+      }
+    })
   }
 })
