@@ -11,7 +11,7 @@ var lineChart2 = [];
 var pieChart1 = null;
 var pieChart2 = null;
 var pieChart3 = null;
-var pieChart5 = null;
+var pieChart4 = null;
 Page({
     data:{
 

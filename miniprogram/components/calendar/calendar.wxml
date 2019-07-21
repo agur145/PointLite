@@ -1,7 +1,0 @@
-<view class='calendar-container'>
-  <view class='flipper'>
-    <view class='front' bindtap='onBookTap'>
-    <image class='coverImg'  src='{{ bookCoverUrl }}'></image>
-    </view>
-  </view>
-</view>
