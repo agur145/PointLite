@@ -49,9 +49,9 @@
 .add_icon{
   position: fixed;
   bottom: -10rpx;
-  right: -20rpx;
-  width: 200rpx;
-  height: 200rpx;
+  right: -5rpx;
+  width: 150rpx;
+  height: 150rpx;
   z-index: 2;
 }
 

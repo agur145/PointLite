@@ -20,9 +20,7 @@
       <open-data type='userNickName' class='username' />
     </view>
     <view class="getTop">
-    <swiper class='journalBooks' indicator-dots='true' previous-margin='75rpx' next-margin='75rpx' current='1'>
-    <swiper-item>
-    </swiper-item>
+    <swiper class='journalBooks' indicator-dots='true' previous-margin='75rpx' next-margin='75rpx' current='0'>
     <swiper-item class='journalBook' wx:key='{{ item._id }}' wx:for='{{ bookList }}'>
       <journalBook journal_book_id='{{ item._id }}' name='{{ item.name }}' count='{{ item.number }}' background_id='{{ item.bookcover }}' bindrefreshBookList='onRefreshBookList' color_id='{{item.color}}' />
     </swiper-item>
