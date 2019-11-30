@@ -25,9 +25,9 @@ Component({
   },
 
   data: {
-    bookCoverUrl: 'cloud://notebook-bf48f1.6e6f-notebook-bf48f1/cover/',
+    bookCoverUrl: app.globalData.bookCoverUrl,
     bookCovers: [],
-    mainColorUrl: 'cloud://notebook-bf48f1.6e6f-notebook-bf48f1/color/',
+    mainColorUrl: app.globalData.mainColorUrl,
     mainColor: [],
     colorItem: ['#5cadff', '#f76b6c', '#ffe300','#4db199'],
     newName: '',

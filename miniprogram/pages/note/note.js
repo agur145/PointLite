@@ -1,3 +1,4 @@
+var app = getApp();
 const db = wx.cloud.database()
 var util = require('../../utils/util.js')
 Page({
@@ -7,9 +8,9 @@ Page({
     id: '',
     bookList: [],
     //手账本封面地址
-    bookCoverUrl:'cloud://notebook-bf48f1.6e6f-notebook-bf48f1/cover/',
+    bookCoverUrl: app.globalData.bookCoverUrl,
     //主题颜色图片地址
-    mainColorUrl: 'cloud://notebook-bf48f1.6e6f-notebook-bf48f1/color/',
+    mainColorUrl: app.globalData.mainColorUrl,
     //封面选框数组
     bookCovers: [],
     //主题颜色选框数组

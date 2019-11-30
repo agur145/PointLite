@@ -1,5 +1,4 @@
 //app.js
-
 App({
   onLaunch: function () {
     //初始化云服务器
@@ -13,7 +12,9 @@ App({
   globalData: {
     userInfo: null,
     openId:null,
-    id:null
+    id:null,
+    bookCoverUrl: '',
+    mainColorUrl: ''
   },
 
   //动画效果
