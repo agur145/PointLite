@@ -246,15 +246,15 @@
 ## 部分界面演示
 
 <p align="center">
-  <img width="200" src="Screenshots/1.png" hspace="30px" />
-  <img width="200" src="Screenshots/2.png" hspace="30px" />
-  <img width="200" src="Screenshots/3.png" hspace="30px" />
+  <img width="200" src="screenshots/1.png" hspace="30px" />
+  <img width="200" src="screenshots/2.png" hspace="30px" />
+  <img width="200" src="screenshots/3.png" hspace="30px" />
 </p>
 
 <p align="center">
-  <img width="200" src="Screenshots/4.png" hspace="30px" />
-  <img width="200" src="Screenshots/5.png" hspace="30px" />
-  <img width="200" src="Screenshots/6.png" hspace="30px" />
+  <img width="200" src="screenshots/4.png" hspace="30px" />
+  <img width="200" src="screenshots/5.png" hspace="30px" />
+  <img width="200" src="screenshots/6.png" hspace="30px" />
 </p>
 
 ## 参考文档
