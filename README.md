@@ -11,8 +11,6 @@
 
 ## 目录
 
-|-- PointLite
-
     |-- .gitignore
     |-- package-lock.json
     |-- project.config.json
