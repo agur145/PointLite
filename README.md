@@ -264,7 +264,7 @@
 ## 安装
 - 获取代码
   - 执行` git clone https://github.com/agur145/PointLite.git `
-  - 或者[点击此处]()获取最新释放的版本
+  - 或者[点击此处](https://github.com/agur145/PointLite/releases)获取最新释放的版本
 - 将压缩包解压后通过微信开发工具把项目导入
 - 如果想要进行功能测试，请确认你的微信开发者信息并申请使用云开发平台，其中：
   - 云函数为：`getData()` `getYearData()` `handleDatabase()` `login()` 可直接在本地上传并部署(云端安装依赖)
