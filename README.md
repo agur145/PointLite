@@ -270,9 +270,9 @@
   - 云函数为：`getData()` `getYearData()` `handleDatabase()` `login()` 可直接在本地上传并部署(云端安装依赖)
   - 数据库包含的集合：`notes` `users`
   - 文件存储结构：`/color` 用于储存颜色图片，`/cover` 用于储存账本封面图片
-- 完成上述步骤后将账本封面图片文件夹对应的地址填入`\miniprogram\app.js`中的 bookCoverUrl ，将颜色图片文件夹对应的地址填入`\miniprogram\app.js`中的 mainColorUrl 后保存
+- 完成上述步骤后将账本封面图片文件夹对应的地址填入`/miniprogram/app.js`中的 bookCoverUrl ，将颜色图片文件夹对应的地址填入`/miniprogram/app.js`中的 mainColorUrl 后保存
 
 ## 参考文档
 
-- [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
+- [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/)
 
