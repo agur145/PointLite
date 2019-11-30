@@ -17,6 +17,8 @@
 - [项目描述](#描述)
 - [目录](#目录)
 - [文件结构](#文件结构)
+- [界面演示](#部分界面演示)
+- [参考文档](#参考文档)
 
 ## 文件结构
 
@@ -241,6 +243,19 @@
             |-- util.js
             |-- wxcharts.js
 
+## 部分界面演示
+
+<p align="center">
+  <img width="200" src="Screenshots/1.png" hspace="30px" />
+  <img width="200" src="Screenshots/2.png" hspace="30px" />
+  <img width="200" src="Screenshots/3.png" hspace="30px" />
+</p>
+
+<p align="center">
+  <img width="200" src="Screenshots/4.png" hspace="30px" />
+  <img width="200" src="Screenshots/5.png" hspace="30px" />
+  <img width="200" src="Screenshots/6.png" hspace="30px" />
+</p>
 
 ## 参考文档
 
