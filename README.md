@@ -257,7 +257,7 @@
   <img width="200" src="screenshots/6.png" hspace="30px" />
 </p>
 
-##安装
+## 安装
 - 获取代码
   - 执行` git clone https://github.com/agur145/PointLite.git `
   - 或者[点击此处]()获取最新释放的版本
