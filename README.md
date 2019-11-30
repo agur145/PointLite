@@ -1,5 +1,8 @@
 # PointLite
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Language](https://img.shields.io/badge/javascript-ES6-orange.svg)](https://www.javascript.com/)
+
 基于微信小程序的记账工具
 
 ## 描述
@@ -18,6 +21,7 @@
 - [目录](#目录)
 - [文件结构](#文件结构)
 - [界面演示](#部分界面演示)
+- [安装](#安装)
 - [参考文档](#参考文档)
 
 ## 文件结构
@@ -262,10 +266,10 @@
   - 执行` git clone https://github.com/agur145/PointLite.git `
   - 或者[点击此处]()获取最新释放的版本
 - 将压缩包解压后通过微信开发工具把项目导入
-- 如果想要进行功能测试，请确认你的微信开发者信息并申请使用云开发平台，其中： 
-  云函数为：`getData()` `getYearData()` `handleDatabase()` `login()` 可直接在本地上传并部署(云端安装依赖)
-  数据库包含的集合：`notes` `users`
-  文件存储结构：`/color` 用于储存颜色图片，`/cover` 用于储存账本封面图片
+- 如果想要进行功能测试，请确认你的微信开发者信息并申请使用云开发平台，其中：
+  - 云函数为：`getData()` `getYearData()` `handleDatabase()` `login()` 可直接在本地上传并部署(云端安装依赖)
+  - 数据库包含的集合：`notes` `users`
+  - 文件存储结构：`/color` 用于储存颜色图片，`/cover` 用于储存账本封面图片
 - 完成上述步骤后将账本封面图片文件夹对应的地址填入`\miniprogram\app.js`中的 bookCoverUrl ，将颜色图片文件夹对应的地址填入`\miniprogram\app.js`中的 mainColorUrl 后保存
 
 ## 参考文档
