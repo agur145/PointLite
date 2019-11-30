@@ -8,14 +8,15 @@
 - [2019-中国高校计算机大赛微信小程序应用开发赛参赛作品](https://developers.weixin.qq.com/community/competition)
 - 提供简单的记账操作，数据统计与分析
 - 使用了 iView Weapp 的部分控件与布局模板，[点击此处](https://weapp.iviewui.com/)查看 iView Weapp 的相关介绍
+- 部分界面设计参考 [Weapp-Demo-LemonJournal](https://github.com/goolhanrry/Weapp-Demo-LemonJournal) 
 - 已进行脱敏处理，请在运行前确认你的微信开发者信息并将相应的信息填入代码中
 
 ## 目录
 
 - [项目名称](#PointLite)
-- [项目描述](##描述)
-- [目录](##目录)
-- [文件结构](##文件结构)
+- [项目描述](#描述)
+- [目录](#目录)
+- [文件结构](#文件结构)
 
 ## 文件结构
 
