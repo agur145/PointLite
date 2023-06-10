@@ -1,8 +1,0 @@
-@import '../../lib/font.wxss';
-.textline{
-  text-align: center;
-}
-.about-banner{
-  width: 159px;
-  height: 180px;
-}

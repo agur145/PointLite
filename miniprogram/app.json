@@ -1,36 +1,14 @@
 {
   "pages": [
-    "pages/logIn/logIn",
-    "pages/manage/manage",
-    "pages/note/note",
-    "pages/about/about",
-    "pages/introduce/introduce",
-    "pages/setting/setting",
-    "pages/detail/detail",
-    "pages/share/share"
+    "pages/index/index",
+    "pages/logs/logs"
   ],
-  "tabBar": {
-    "list": [
-      {
-        "text": "账单",
-        "pagePath": "pages/note/note",
-        "iconPath": "images/icons/note-1.png",
-        "selectedIconPath": "images/icons/note-2.png"
-      },
-      {
-        "text": "设置",
-        "pagePath": "pages/setting/setting",
-        "iconPath": "images/icons/setting_1.png",
-        "selectedIconPath": "images/icons/setting_2.png"
-      }
-    ],
-    "color": "#B5B5B5",
-    "selectedColor": "#000"
-  },
   "window": {
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Point"
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black"
   },
+  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

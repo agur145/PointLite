@@ -1,5 +1,0 @@
-<!--pages/introduce/introduce.wxml-->
-<view style='text-align:center'>
-  <text style='font-weight:bold; font-size:60rpx;'>功能介绍</text>
-</view>
-
